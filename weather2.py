@@ -17,6 +17,9 @@ cur_time = time.strftime('%H:%M/%S')
 day = time.strftime('%A',time.localtime())
 tmrw = time.strftime('%A',time.localtime(time.time()+86400))
 
+keyt=open('/home/pi/weather/key.txt',"r")
+key2=keyt.read()
+keyt.close()
 
 
 #get temperatures
@@ -50,7 +53,7 @@ desc={'midday':'Weather for Midday on '+str(day),
 today = time.strftime('%Y-%m-%d',time.localtime())
 for city in cities:
     data[city]={}
-    link = 'http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/xml/'+str(cities[city][0])+'?res=3hourly&key=ef3a4896-ef33-4083-8e21-f49dcc8c45b9'
+    link = 'http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/xml/'+str(cities[city][0])+'?res=3hourly&key='+key2
     webpage=str(urllib.request.urlopen(link).read())
     soup = bs4.BeautifulSoup(webpage,"lxml")
     by_line=webpage.split('>')
