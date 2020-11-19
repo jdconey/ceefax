@@ -17,6 +17,7 @@ cur_time = time.strftime('%H:%M/%S')
 day = time.strftime('%A',time.localtime())
 tmrw = time.strftime('%A',time.localtime(time.time()+86400))
 
+#you need a Met Office API Key
 keyt=open('/home/pi/weather/key.txt',"r")
 key2=keyt.read()
 keyt.close()
@@ -49,7 +50,6 @@ desc={'midday':'Weather for Midday on '+str(day),
       
     
       }
-#temps={'Inverness':[352021,(530,135)]}
 today = time.strftime('%Y-%m-%d',time.localtime())
 for city in cities:
     data[city]={}
@@ -444,113 +444,3 @@ for period in timeos:
     base='/media/pi/D608-D7E6/ceefax/'  
     print(period)    
     cv2.imwrite(base+period+'.jpg',img)
-        
-
-# for time1 in timeos:
-#     decoded={}
-    
-#     #Scotland
-#     weather_codes=[]
-    
-    
-#     weather_codes.append(int(data['Inverness'][time1][1]))
-#     if data['Inverness'][time1][1]!=data['Fort William'][time1][1]:
-#         weather_codes.append(int(data['Fort William'][time1][1]))
-#         weather_codes=sorted(weather_codes)
-    
-    
-#     if len(weather_codes)==2:
-#         decoded['sc']=codes[weather_codes[0]]+ ' and '+codes[weather_codes[1]]
-#     else:
-#         decoded['sc']=codes[weather_codes[0]]
-        
-        
-    
-#     #nw
-#     weather_codes=[]
-    
-#     weather_codes.append(int(data['Belfast'][time1][1]))
-#     if data['Belfast'][time1][1]!=data['Manchester'][time1][1]:
-#         weather_codes.append(int(data['Manchester'][time1][1]))
-#         weather_codes=sorted(weather_codes)
-    
-    
-#     if len(weather_codes)==2:
-#         decoded['nw']=codes[weather_codes[0]]+ ' and '+codes[weather_codes[1]]
-#     else:
-#         decoded['nw']=codes[weather_codes[0]]    
-        
-#     #ne
-#     weather_codes=[]
-    
-#     weather_codes.append(int(data['Kendal'][time1][1]))
-#     if data['Kendal'][time1][1]!=data['Cambridge'][time1][1]:
-#         weather_codes.append(int(data['Cambridge'][time1][1]))
-#         weather_codes=sorted(weather_codes)
-    
-#     if len(weather_codes)==2:
-#         decoded['ne']=codes[weather_codes[0]]+ ' and '+codes[weather_codes[1]]
-#     else:
-#         decoded['ne']=codes[weather_codes[0]]    
-        
-#     #s
-#     weather_codes=[]
-    
-#     weather_codes.append(int(data['Exeter'][time1][1]))
-#     if data['Exeter'][time1][1]!=data['London'][time1][1]:
-#         weather_codes.append(int(data['London'][time1][1]))
-#         weather_codes=sorted(weather_codes)
-    
-    
-#     if len(weather_codes)==2:
-#         decoded['s']=codes[weather_codes[0]]+ ' and '+codes[weather_codes[1]]
-#     else:
-#         decoded['s']=codes[weather_codes[0]]    
-
-    
-#     points=0
-#     if decoded['ne']==decoded['nw']:
-#         points=points+1
-#     if decoded['ne']==decoded['sc']:
-#         points=points+10
-#     if decoded['ne']==decoded['s']:
-#         points=points+100
-#     if decoded['nw']==decoded['sc']:
-#         points=points+1000
-#     if decoded['nw']==decoded['s']:
-#         points=points+10000
-#     if decoded['sc']==decoded['s']:
-#         points=points+100000        
-        
-#     #annotate easy stuff!
-    
-    
-#     img = cv2.imread('C:/Users/Owner/Documents/ceefax/base/'+str(points)+'.jpg')
-#     font = cv2.FONT_HERSHEY_PLAIN
-#     cv2.putText(img,'401 CEEFAX 1     401',(0,26),font, 2, (255,255,255),2,cv2.LINE_AA)
-#     cv2.putText(img,cur_day,(600,26),font,2,(255,255,255),2,cv2.LINE_AA)
-#     cv2.putText(img,cur_time,(1000,26),font,2,(0,255,255),2,cv2.LINE_AA)
-    
-#     cv2.putText(img,desc[time1],(350,60),font,2,(255,255,255),2,cv2.LINE_AA)
-    
-#     cv2.putText(img,'Data: The Met Office',(400,855),font,2,(255,255,255),2,cv2.LINE_AA)
-    
-    
-#     for city in temps:
-#         cv2.putText(img,str(data[city][time1][0]),cities[city][1],font,2,(255,255,255),2,cv2.LINE_AA)
-    
-#     colours={'ne':(0,255,0),'nw':(255,0,255),'sc':(255,255,0),'s':(0,255,255)}
-#     posns={'ne':(750,400),'nw':(0,250),'sc':(700,200),'s':(100,750)}
-    
-#     if points in [1,1000,1011,1100,100001,111000,111111]:
-#         del decoded['nw']
-#     if points in [10,11,1011,10010,100110,111111]:
-#         del decoded['ne']
-#     if points in [11,100,1100,10000,10010] or points>99000:
-#         del decoded['s']
-    
-#     for region in decoded:
-#         if region in temps:
-#             cv2.putText(img,decoded[region],posns[region],font,2,colours[region],2,cv2.LINE_AA)
-    
-#     cv2.imwrite(time1+'.jpg',img)
