@@ -17,7 +17,6 @@ cur_time = time.strftime('%H:%M/%S')
 day = time.strftime('%A',time.localtime())
 tmrw = time.strftime('%A',time.localtime(time.time()+86400))
 
-#you need a Met Office API Key
 keyt=open('/home/pi/weather/key.txt',"r")
 key2=keyt.read()
 keyt.close()
@@ -50,6 +49,7 @@ desc={'midday':'Weather for Midday on '+str(day),
       
     
       }
+#temps={'Inverness':[352021,(530,135)]}
 today = time.strftime('%Y-%m-%d',time.localtime())
 for city in cities:
     data[city]={}
@@ -438,9 +438,24 @@ for period in timeos:
 
         cv2.putText(img,codes[int(diff)],posns[ab],font,2,colours[ab],2,cv2.LINE_AA)
         ab=ab+1
-
+    print(posns)
+    m=0
+    n=1
+    while n<len(posns):
+        while m<n:
+            if abs(posns[m][1] - posns[n][1]) < 30:
+                if posns[n][1] < 780:
+                    posns[n] = (0, posns[n][1] + 60)
+                else:
+                    posns[n] = (0,posns[n][1] - 60)
+            m=m+1
+        n=n+1
+                    
         
         
     base='/media/pi/D608-D7E6/ceefax/'  
-    print(period)    
-    cv2.imwrite(base+period+'.jpg',img)
+    print(period)
+    print(posns)
+    print('\n')
+    #cv2.imwrite(base+period+'.jpg',img)
+        
