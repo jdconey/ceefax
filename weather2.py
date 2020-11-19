@@ -455,7 +455,6 @@ for period in timeos:
         
     base='/media/pi/D608-D7E6/ceefax/'  
     print(period)
-    print(posns)
     print('\n')
-    #cv2.imwrite(base+period+'.jpg',img)
+    cv2.imwrite(base+period+'.jpg',img)
         
