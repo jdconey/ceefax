@@ -436,7 +436,6 @@ for period in timeos:
         diff=connies[ab]
         posns[ab]=(0,int(np.mean(posy[colours[ab]])))
 
-        cv2.putText(img,codes[int(diff)],posns[ab],font,2,colours[ab],2,cv2.LINE_AA)
         ab=ab+1
     print(posns)
     m=0
@@ -450,6 +449,13 @@ for period in timeos:
                     posns[n] = (0,posns[n][1] - 60)
             m=m+1
         n=n+1
+    print(posns)
+    
+    ab2=0
+    while ab2<len(connies):
+        diff=connies[ab2]
+        cv2.putText(img,codes[int(diff)],posns[ab2],font,2,colours[ab2],2,cv2.LINE_AA)
+        ab2=ab2+1
                     
         
         
