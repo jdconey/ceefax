@@ -376,6 +376,19 @@ for period in timeos:
                     if data[city4][period][1] in ['12','15']:
                         data[city4][period][1]='31'
         if len(connies)>4:
+            if '7' in connies and '8' in connies:
+                connies.remove('8')
+                for city4 in blocks:
+                    if data[city4][period][1] in ['8']:
+                        data[city4][period][1] = '7'
+        if len(connies)>4:
+            if '12' in connies and '13' in connies:
+                connies.remove('12')
+                connies.remove('13')
+                for city4 in blocks:
+                    if data[city4][period][1] in ['12','13']:
+                        data[city4][period][1] = '31'
+        if len(connies)>4:
             wintry = ['31','16','17','19','20','22','23','24','25','26']
             score=0
             for k in connies:
@@ -387,6 +400,15 @@ for period in timeos:
                     if l in connies:
                         connies.remove(l)
                 connies.append('32')
+                
+        groups2={}
+        connies2=[]
+        for city in blocks:
+            if data[city][period][1] not in connies2:
+                connies2.append(data[city][period][1])
+                groups2[data[city][period][1]]=[city]
+            else:
+                groups2[data[city][period][1]].append(city)
             
    
      #   print(groups)
@@ -408,26 +430,38 @@ for period in timeos:
     i=0
     words=[]
     posy={}
+   # print(connies)
     while i<len(connies):
         words.append(connies[i])
         i=i+1
+    cols={}
     for city3 in blocks:
+       # print(city3)
         j=0
-        while j<len(connies):
-            if city3 in groups[connies[j]]:
+   
+ #       print(connies,groups2)
+        while j<len(connies2):
+            if city3 in groups2[connies2[j]]:
+              #  print(groups2[connies2[j]])
                 cx=colours[j]
+                cols[city3]=cx
                 if cx not in posy.keys():
                     posy[cx]=[]
                 posy[cx]=posy[cx]+list(blocks[city3].keys())
 
 
             j=j+1
+#    print(cols)
+ #   print(groups2)
+    for city3 in blocks:
         for y in blocks[city3]:
             for x in blocks[city3][y]:
+                cx=cols[city3]
                 img=cv2.rectangle(img,(int(x),y),(int(x)+11,y+8),cx,-1)
         if city3 in small:
             for y in small[city3]:
                 for x in small[city3][y]:
+                    cx=cols[city3]
                     img=cv2.rectangle(img,(int(x),y),(int(x)+11,y+5),cx,-1)
         
         
@@ -444,16 +478,16 @@ for period in timeos:
         while m<n:
             if abs(posns[m][1] - posns[n][1]) < 30:
                 if posns[n][1] < 780:
-                    posns[n] = (0, posns[n][1] + 60)
+                    posns[n] = (0, posns[n][1] + 30)
                 else:
-                    posns[n] = (0,posns[n][1] - 60)
+                    posns[n] = (0,posns[n][1] - 30)
             m=m+1
         n=n+1
     print(posns)
     
     ab2=0
-    while ab2<len(connies):
-        diff=connies[ab2]
+    while ab2<len(connies2):
+        diff=connies2[ab2]
         cv2.putText(img,codes[int(diff)],posns[ab2],font,2,colours[ab2],2,cv2.LINE_AA)
         ab2=ab2+1
                     
